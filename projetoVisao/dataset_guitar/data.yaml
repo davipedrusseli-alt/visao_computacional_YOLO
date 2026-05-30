@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 3
+names: ['acousticguitar', 'bass', 'guitar']
+
+roboflow:
+  workspace: davi-pedrusseli
+  project: guitars-cmmqz-gaebg
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/davi-pedrusseli/guitars-cmmqz-gaebg/dataset/3

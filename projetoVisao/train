@@ -1,0 +1,35 @@
+from ultralytics import YOLO, settings
+import os
+import shutil
+from IPython.display import Image, display
+
+# Configurar pasta de saída local (para não salvar em /root/.config)
+settings.update({'runs_dir': './runs'})
+
+# Verificar se tem GPU (opcional, mas bom saber)
+import torch
+
+# Defina aqui o caminho para o SEU arquivo data.yaml
+# Opções comuns: 'dataset_aquarium/data.yaml' ou 'dataset_construction/data.yaml'
+
+dataset_path = r'C:\Users\davis\OneDrive\Documentos\Faculdade\Arquivo Python\visaoComputacional\projetoVisao\dataset_guitar\data.yaml'  # <--- EDITE AQUI se estiver usando outro
+
+if not os.path.exists(dataset_path):
+    print(f"⚠️ ATENÇÃO: Arquivo '{dataset_path}' não encontrado. Verifique o caminho!")
+else:
+    print(f"✅ Dataset encontrado: {dataset_path}")
+
+# Carregar modelo pré-treinado
+model = YOLO('yolov8n.pt')
+
+# Iniciar treinamento
+# Os resultados serão salvos em runs/detect/trainX
+results = model.train(data=dataset_path, epochs=50, imgsz=416, batch=2, workers=2, cache=False, patience=10,)
+
+# O objeto 'results' guarda o diretório onde tudo foi salvo
+print(f"Resultados salvos em: {results.save_dir}")
+
+# Exibir os gráficos de perda e performance
+Image(filename=f'{results.save_dir}/results.png')
+Image(filename=f'{results.save_dir}/confusion_matrix.png')
+Image(filename=f'{results.save_dir}/val_batch0_pred.jpg')
